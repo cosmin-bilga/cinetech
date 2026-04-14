@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler", 
+    "lib": ["ES2020", "DOM", "DOM.Iterable"], /* Added for document/window support */
+    
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+
+    /* If you aren't using React, you can remove this, but it doesn't hurt */
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*"]
+}
