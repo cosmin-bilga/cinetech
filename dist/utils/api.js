@@ -13,6 +13,10 @@ export async function dbFetch(route) {
     }
     return response.json();
 }
+export async function getPopularMovies(page = 1) {
+    const res = await dbFetch(`/movie/popular?api_key=${API_KEY}&page=${page}`);
+    return res;
+}
 export async function getMovies(page = 1) {
     const res = await dbFetch(`/movie/popular?api_key=${API_KEY}&page=${page}`);
     return res;

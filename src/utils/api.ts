@@ -19,6 +19,11 @@ export async function dbFetch(route: string): Promise<Movies> {
   return response.json() as Promise<Movies>;
 }
 
+export async function getPopularMovies(page: number = 1): Promise<Movies> {
+  const res = await dbFetch(`/movie/popular?api_key=${API_KEY}&page=${page}`);
+  return res;
+}
+
 export async function getMovies(page: number = 1): Promise<Movies> {
   const res = await dbFetch(`/movie/popular?api_key=${API_KEY}&page=${page}`);
   return res;
