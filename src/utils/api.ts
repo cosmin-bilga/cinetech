@@ -1,6 +1,7 @@
 import type { Movies } from "../types/types";
+import { API_KEY, BASE_URL } from "../config/config.js";
 
-export async function dbFetch(endpoint: string): Promise<Movies> {
+export async function dbFetch(route: string): Promise<Movies> {
   const options: Object = {
     method: "GET",
     headers: {
@@ -9,7 +10,7 @@ export async function dbFetch(endpoint: string): Promise<Movies> {
     },
   };
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, options);
+  const response = await fetch(`${BASE_URL}${route}`, options);
 
   if (!response.ok) {
     throw new Error(`API Error: ${response.status} ${response.statusText}`);

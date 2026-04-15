@@ -1,4 +1,5 @@
-export async function dbFetch(endpoint) {
+import { API_KEY, BASE_URL } from "../config/config.js";
+export async function dbFetch(route) {
     const options = {
         method: "GET",
         headers: {
@@ -6,7 +7,7 @@ export async function dbFetch(endpoint) {
             Authorization: `Bearer ${API_KEY}`,
         },
     };
-    const response = await fetch(`${BASE_URL}${endpoint}`, options);
+    const response = await fetch(`${BASE_URL}${route}`, options);
     if (!response.ok) {
         throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
