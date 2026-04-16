@@ -8,7 +8,37 @@
     <link href="/dist/output.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>Movies Page</h1>
-    <section id="movie-section"></section>
+    <header class="w-full flex justify-center">
+      <nav
+        class="flex justify-center gap-6 p-4 bg-gradient-to-b from-[#400261] to-[#41054A] text-2xl font-extrabold lg: w-200 lg: rounded-xl"
+      >
+        <a
+          href="/"
+          id="home-nav-button"
+          class="hover:text-amber-500 hover:scale-105 transition-all duration-300"
+          >Accueil</a
+        >
+        <a
+          id="movies-nav-button"
+          href="/movies"
+          class="hover:text-amber-500 hover:scale-105 transition-all duration-300"
+          >Films</a
+        >
+        <a
+          id="series-nav-button"
+          href="/series"
+          class="hover:text-amber-500 hover:scale-105 transition-all duration-300"
+          >Series</a
+        >
+      </nav>
+    </header>
+    <main class="lg:m-auto lg:max-w-400">
+      <h2 class="text-3xl mb-20">Liste de films populaires</h2>
+      <section
+        id="popular-movie-section"
+        class="flex justify-around flex-wrap gap-4"
+      ></section>
+      <section id="pagination" class=""></section>
+    </main>
   </body>
 </html>
