@@ -77,11 +77,66 @@ async function retrieveSerie() {
     mainElement.append(serieInfo);
     const reviewData = await getSerieReviews(data.id);
     console.log(reviewData);
+    const localReplies = JSON.parse(localStorage.getItem("replies") || "{}");
     const serieReview = document.createElement("div");
+    // Event listener pour les boutons reponse
     serieReview.className = "mx-2 text-white";
-    serieReview.innerHTML = `<div id="review-${reviewData.id}">
-    ${reviewData.results.map((review) => `<div><p>${review.author}</p><p>${review.content}</p><button id="button-${review.id}">Répondre</button><input id="input-${review.id}"></input></div>`).join(" ")}
-  </div>`;
+    serieReview.innerHTML = `<div>
+    ${reviewData.results
+        .map((review) => {
+        const localRepliesForThisReview = localReplies[review.id] || [];
+        return `
+        <div id="review-${review.id}" class="ml-2 mb-2 border-b border-gray-700 pb-2">
+            <p class="font-bold text-amber-500">${review.author}</p>
+            <p>${review.content}</p>
+            
+            <div class="replies-container">
+                ${localRepliesForThisReview
+            .map((reply) => `
+                    <div class="ml-8 mt-2 p-2 bg-gray-800 rounded border-l-2 border-amber-500">
+                        <p class="text-xs text-amber-500">Localuser:</p>
+                        <p>${reply}</p>
+                    </div>
+                `)
+            .join("")}
+            </div>
+
+            <div class="flex mt-2">
+                <input id="input-${review.id}" class="text-amber-100 px-2 rounded-l outline-1" placeholder="Répondre...">
+                <button id="button-${review.id}" class="bg-amber-600 px-3 rounded-r outline-1">Envoyer</button>
+            </div>
+        </div>`;
+    })
+        .join("")}
+</div>`;
+    serieReview.addEventListener("click", (e) => {
+        const target = e.target;
+        if (target.tagName === "BUTTON" && target.id.startsWith("button-")) {
+            const reviewId = target.id.replace("button-", "");
+            const input = document.getElementById(`input-${reviewId}`);
+            if (input && input.value.trim() !== "") {
+                handleReply(reviewId, input.value);
+                input.value = ""; // Efface l'input après envoi
+            }
+        }
+    });
+    function handleReply(reviewId, content) {
+        const targetDiv = document.getElementById(`review-${reviewId}`);
+        const replyDiv = document.createElement("div");
+        replyDiv.className =
+            "ml-8 mt-2 p-2 bg-gray-800 rounded border-l-2 border-amber-500";
+        replyDiv.innerHTML = `<p class="text-xs text-amber-500">Moi (Réponse):</p><p>${content}</p>`;
+        targetDiv?.appendChild(replyDiv);
+        saveLocalReply(reviewId, content);
+    }
+    function saveLocalReply(reviewId, content) {
+        const allReplies = JSON.parse(localStorage.getItem("replies") || "{}");
+        if (!allReplies[reviewId]) {
+            allReplies[reviewId] = [];
+        }
+        allReplies[reviewId].push(content);
+        localStorage.setItem("replies", JSON.stringify(allReplies));
+    }
     mainElement.append(serieReview);
     const reviewButton = document.getElementById("button-" + reviewData.id);
     const reviewInput = document.getElementById("input-" + reviewData.id);

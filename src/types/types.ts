@@ -195,6 +195,7 @@ export interface Review {
   id: string;
   updated_at: string;
   url: string;
+  replies: string[];
 }
 
 export interface Reviews {
