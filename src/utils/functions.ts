@@ -1,3 +1,5 @@
+import type { Movie } from "../types/types";
+
 export function getCurrentPage(): number {
   const params = new URLSearchParams(window.location.search);
   const pageValue = params.get("page");
@@ -40,4 +42,43 @@ export function buildPagination(
   }
 
   return paginationMenu;
+}
+
+export function handleReply(reviewId: string, content: string) {
+  const targetDiv = document.getElementById(`review-${reviewId}`);
+  const replyDiv = document.createElement("div");
+  replyDiv.className =
+    "ml-8 mt-2 p-2 bg-gray-800 rounded border-l-2 border-amber-500";
+  replyDiv.innerHTML = `<p class="text-xs text-amber-500">Moi (Réponse):</p><p>${content}</p>`;
+  targetDiv?.appendChild(replyDiv);
+  saveLocalReply(reviewId, content);
+}
+
+export function saveLocalReply(reviewId: string, content: string) {
+  const allReplies = JSON.parse(localStorage.getItem("replies") || "{}");
+  if (!allReplies[reviewId]) {
+    allReplies[reviewId] = [];
+  }
+  allReplies[reviewId].push(content);
+  localStorage.setItem("replies", JSON.stringify(allReplies));
+}
+
+export function saveLocalMovieFavorites(movie: Movie) {
+  const favoriteMovies = JSON.parse(
+    localStorage.getItem("favorite-movies") || "[]",
+  );
+  if (!favoriteMovies.includes(movie)) {
+    favoriteMovies.append(movie);
+    localStorage.setItem("favorite-movies", JSON.stringify(favoriteMovies));
+  }
+}
+
+export function removeLocalMovieFavorites(movie: Movie) {
+  const favoriteMovies = JSON.parse(
+    localStorage.getItem("favorite-movies") || "[]",
+  );
+  if (favoriteMovies.includes(movie)) {
+    favoriteMovies.append(movie);
+    localStorage.setItem("favorite-movies", JSON.stringify(favoriteMovies));
+  }
 }
