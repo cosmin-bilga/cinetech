@@ -27,27 +27,28 @@ export async function getSeries(page = 1) {
     return res;
 }
 export async function getMovieDetail(id) {
-    const res = await dbFetch(`${BASE_URL}/movie/${id}`, API_GET_KEY);
+    const res = await dbFetch(`/movie/${id}`, API_GET_KEY);
     return res;
 }
 export async function getSerieDetail(id) {
-    const res = await dbFetch(`${BASE_URL}/tv/${id}`, API_GET_KEY);
+    const res = await dbFetch(`/tv/${id}`, API_GET_KEY);
+    console.log(res);
     return res;
 }
 export async function getSerieReviews(id, language = "en-US", page = 1) {
-    const res = await dbFetch(`${BASE_URL}/tv/${id}/reviews?language=${language}&page=${page}`, API_GET_KEY);
+    const res = await dbFetch(`/tv/${id}/reviews?language=${language}&page=${page}`, API_GET_KEY);
     return res;
 }
 export async function getMovieReviews(id, language = "en-US", page = 1) {
-    const res = await dbFetch(`${BASE_URL}/movie/${id}/reviews?language=${language}&page=${page}`, API_GET_KEY);
+    const res = await dbFetch(`/movie/${id}/reviews?language=${language}&page=${page}`, API_GET_KEY);
     return res;
 }
 export async function getSerieCredits(id, language = "en-US") {
-    const res = await dbFetch(`${BASE_URL}/tv/${id}/credits?language=${language}`, API_GET_KEY);
+    const res = await dbFetch(`/tv/${id}/credits?language=${language}`, API_GET_KEY);
     return res;
 }
 export async function getMovieCredits(id, language = "en-US") {
-    const res = await dbFetch(`${BASE_URL}/movie/${id}/credits?language=${language}`, API_GET_KEY);
+    const res = await dbFetch(`/movie/${id}/credits?language=${language}`, API_GET_KEY);
     return res;
 }
 //# sourceMappingURL=api.js.map

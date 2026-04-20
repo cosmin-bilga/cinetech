@@ -3,12 +3,19 @@ import {
   getSerieDetail,
   getMovieReviews,
   getSerieReviews,
-  getSerieCredits, 
-  getMovieCredits
+  getSerieCredits,
+  getMovieCredits,
 } from "./utils/api.js";
-import { getCurrentId } from "./utils/functions.js";
+import {
+  getCurrentId,
+  changeLocalMovieFavorites,
+  changeLocalSerieFavorites,
+  isFavoriteMovie,
+  isFavoriteSerie,
+} from "./utils/functions.js";
 import { BASE_IMAGE_URL } from "./config/config.js";
-import { handleReply, saveLocalReply } from "./utils/functions.js";
+import { handleReply } from "./utils/functions.js";
+import type { CrewMember, CastMember } from "./types/types.js";
 
 async function retrieveMovie() {
   const mainElement = document.getElementById("main");
@@ -21,7 +28,7 @@ async function retrieveMovie() {
   }
 
   const data = await getMovieDetail(movieId);
-  const castData = await getMovieCredits(movieId);
+  const dataCredits = await getMovieCredits(movieId);
   const reviewData = await getMovieReviews(movieId);
   const localReplies = JSON.parse(localStorage.getItem("replies") || "{}");
 
@@ -35,7 +42,6 @@ async function retrieveMovie() {
   </div>
   <div class="flex flex-col mx-2 justify-around text-amber-100 mb-8">
     <div>
-      <h2>Réalisateur: ${data.}</h2>
       <h3>Pays d'origine: ${data.production_countries.map((c) => c.name).join(" ") || "Non spécifié"}</h3>
       <p>Durée: ${data.runtime} min</p>
       <p>Date de sortie: ${data.release_date}</p>
@@ -45,9 +51,52 @@ async function retrieveMovie() {
       <h5>Synopsis</h5>
       <p>${data.overview}</p>
     </div>
+     <div>
+      <h5 class="text-3xl font-bold text-amber-500 text-center">Producers</h5>
+      <div class="flex flew-col justify-center gap-4 md: flex-row">
+        ${dataCredits.crew
+          .filter((crewMember: CrewMember) => crewMember.job === "Producer")
+          .map(
+            (producer: CrewMember) => `
+      <div class="w-1/2">
+          ${
+            producer.profile_path
+              ? `<img src="${BASE_IMAGE_URL + "w185" + producer.profile_path}" alt="${producer.name}" />`
+              : `<img src="../assets/account-avatar-person-profile-user-svgrepo-com.svg" alt="${producer.name}" />`
+          }
+        <p class="text-center">${producer.name}</p>
+      </div>
+    `,
+          )
+          .join("")} 
+    </div>
+    <div>
+      <h5 class="text-2xl text-amber-500 text-center" >Cast</h5>
+      <div class="grid grid-cols-4 md:grid-cols-12">
+        ${dataCredits.cast
+          .slice(0, 20)
+          .map(
+            (castMember: CastMember) => `
+        <div class="">
+          ${
+            castMember.profile_path
+              ? `<img src="${BASE_IMAGE_URL + "w185" + castMember.profile_path}" alt="${castMember.name}" class="h-24 w-24 object-cover rounded-full"/>`
+              : `<img src="../assets/account-avatar-person-profile-user-svgrepo-com.svg" alt="${castMember.name}" class="h-24 w-24 object-cover rounded-full"/>`
+          }
+        <p class="text-center text-sm">${castMember.name}</p>
+        </div>
+    `,
+          )
+          .join("")} 
+    </div>
     <div class="flex justify-between mt-4">
       <p>Note moyenne: ${data.vote_average.toPrecision(2)}</p>
-      <button class="border border-black p-2 rounded-2xl bg-gray-700">Ajouter aux favoris</button>
+      ${
+        isFavoriteMovie(data.id)
+          ? `<button class="border border-black p-2 rounded-2xl bg-red-800"; id="add-favorite-button">Retier favori</button>`
+          : `<button class="border border-black p-2 rounded-2xl bg-green-800"; id="add-favorite-button">Ajouter favori</button>`
+      }
+      
     </div>
   </div>
   `;
@@ -99,6 +148,21 @@ async function retrieveMovie() {
     }
   });
 
+  const favoriteButton = document.getElementById("add-favorite-button");
+  console.log(favoriteButton);
+  favoriteButton?.addEventListener("click", (e) => {
+    changeLocalMovieFavorites(data);
+    if (isFavoriteMovie(data.id)) {
+      favoriteButton.textContent = "Rétirer favori";
+      favoriteButton.className =
+        "border border-black p-2 rounded-2xl bg-red-800";
+    } else {
+      favoriteButton.textContent = "Ajouter favori";
+      favoriteButton.className =
+        "border border-black p-2 rounded-2xl bg-green-800";
+    }
+  });
+
   mainElement.append(movieReviewContainer);
 }
 
@@ -117,7 +181,13 @@ async function retrieveSerie() {
     mainElement.innerHTML = "Serie not found";
   }
 
-  const data = await getSerieDetail(getCurrentId());
+  const data = await getSerieDetail(serieId);
+  const dataCredits = await getSerieCredits(serieId);
+
+  console.log(dataCredits);
+
+  /*   const producers = getProducers(dataCredits);
+  const actors = getActors(dataCredits); */
 
   serieInfo.innerHTML = `
   <div class="">
@@ -136,9 +206,53 @@ async function retrieveSerie() {
       <h5>Synopsis</h5>
       <p>${data.overview}</p>
     <div>
+    <div>
+      <h5 class="text-3xl font-bold text-amber-500 text-center">Producers</h5>
+      <div class="flex justify-center gap-4">
+        ${dataCredits.crew
+          .filter((crewMember: CrewMember) => crewMember.job === "Producer")
+          .map(
+            (producer: CrewMember) => `
+      <div class="w-1/4">
+        <div class="aspect-3/4 rounded">
+          ${
+            producer.profile_path
+              ? `<img src="${BASE_IMAGE_URL + "w500" + producer.profile_path}" alt="${producer.name}" class="w-full h-full object-cover"/>`
+              : `<img src="../assets/account-avatar-person-profile-user-svgrepo-com.svg" alt="${producer.name}" class="w-full h-full object-cover" />`
+          }
+          </div>
+        <p>${producer.name}</p>
+      </div>
+    `,
+          )
+          .join("")} 
+    </div>
+    <div>
+      <h5 class="text-2xl text-amber-500 text-center">Cast</h5>
+      <div class="grid grid-cols-4 md:grid-cols-12">
+        ${dataCredits.cast
+          .map(
+            (castMember: CastMember) => `
+        <div class="">
+          ${
+            castMember.profile_path
+              ? `<img src="${BASE_IMAGE_URL + "w500" + castMember.profile_path}" alt="${castMember.name}" class="h-24 w-24 object-cover rounded-full"/>`
+              : `<img src="../assets/account-avatar-person-profile-user-svgrepo-com.svg" alt="${castMember.name}" class="h-24 w-24 object-cover rounded-full"/>`
+          }
+        <p class="text-center text-sm">${castMember.name}</p>
+        </div>
+    `,
+          )
+          .join("")} 
+    </div>
+    </div>
     <div class="flex justify-between">
       <p>Note moyenne: ${data.vote_average.toPrecision(2)}</p>
-      <button class="border border-black p-2 rounded-2xl bg-gray-700">Ajouter aux favoris</button>
+      ${
+        isFavoriteMovie(data.id)
+          ? `<button class="border border-black p-2 rounded-2xl bg-red-800"; id="add-favorite-button">Rétier favori</button>`
+          : `<button class="border border-black p-2 rounded-2xl bg-green-800"; id="add-favorite-button">Ajouter favori</button>`
+      }
     </div>
   </div>
   `;
@@ -196,6 +310,21 @@ async function retrieveSerie() {
         handleReply(reviewId, input.value);
         input.value = "";
       }
+    }
+  });
+
+  const favoriteButton = document.getElementById("add-favorite-button");
+  console.log(favoriteButton);
+  favoriteButton?.addEventListener("click", (e) => {
+    changeLocalSerieFavorites(data);
+    if (isFavoriteSerie(data.id)) {
+      favoriteButton.textContent = "Rétirer favori";
+      favoriteButton.className =
+        "border border-black p-2 rounded-2xl bg-red-800";
+    } else {
+      favoriteButton.textContent = "Ajouter favori";
+      favoriteButton.className =
+        "border border-black p-2 rounded-2xl bg-green-800";
     }
   });
 

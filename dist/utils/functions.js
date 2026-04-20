@@ -1,3 +1,4 @@
+import { getMovieDetail, getSerieDetail } from "./api.js";
 export function getCurrentPage() {
     const params = new URLSearchParams(window.location.search);
     const pageValue = params.get("page");
@@ -48,18 +49,54 @@ export function saveLocalReply(reviewId, content) {
     allReplies[reviewId].push(content);
     localStorage.setItem("replies", JSON.stringify(allReplies));
 }
-export function saveLocalMovieFavorites(movie) {
+export function changeLocalMovieFavorites(movie) {
     const favoriteMovies = JSON.parse(localStorage.getItem("favorite-movies") || "[]");
-    if (!favoriteMovies.includes(movie)) {
-        favoriteMovies.append(movie);
+    if (!favoriteMovies.includes(movie.id)) {
+        favoriteMovies.push(movie.id);
+        localStorage.setItem("favorite-movies", JSON.stringify(favoriteMovies));
+    }
+    else {
+        const index = favoriteMovies.indexOf(movie.id);
+        if (index != -1)
+            favoriteMovies.splice(index, 1);
         localStorage.setItem("favorite-movies", JSON.stringify(favoriteMovies));
     }
 }
-export function removeLocalMovieFavorites(movie) {
-    const favoriteMovies = JSON.parse(localStorage.getItem("favorite-movies") || "[]");
-    if (favoriteMovies.includes(movie)) {
-        favoriteMovies.append(movie);
-        localStorage.setItem("favorite-movies", JSON.stringify(favoriteMovies));
+export function changeLocalSerieFavorites(movie) {
+    const favoriteSeries = JSON.parse(localStorage.getItem("favorite-series") || "[]");
+    if (!favoriteSeries.includes(movie.id)) {
+        favoriteSeries.push(movie.id);
+        localStorage.setItem("favorite-series", JSON.stringify(favoriteSeries));
     }
+    else {
+        const index = favoriteSeries.indexOf(movie.id);
+        if (index != -1)
+            favoriteSeries.splice(index, 1);
+        localStorage.setItem("favorite-series", JSON.stringify(favoriteSeries));
+    }
+}
+export function isFavoriteMovie(id) {
+    const favoriteMovies = JSON.parse(localStorage.getItem("favorite-movies") || "[]");
+    if (favoriteMovies.includes(id))
+        return true;
+    return false;
+}
+export function isFavoriteSerie(id) {
+    const favoriteSeries = JSON.parse(localStorage.getItem("favorite-series") || "[]");
+    if (favoriteSeries.includes(id))
+        return true;
+    return false;
+}
+export async function getFavoriteMovieList() {
+    const favoriteMovies = JSON.parse(localStorage.getItem("favorite-movies") || "[]");
+    const moviePromises = favoriteMovies.map((id) => getMovieDetail(id));
+    const results = await Promise.all(moviePromises);
+    return results;
+}
+export async function getFavoriteSerieList() {
+    const favoriteSeries = JSON.parse(localStorage.getItem("favorite-series") || "[]");
+    const seriePromises = favoriteSeries.map((id) => getSerieDetail(id));
+    const results = await Promise.all(seriePromises);
+    return results;
 }
 //# sourceMappingURL=functions.js.map

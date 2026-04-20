@@ -54,12 +54,13 @@ export async function getSeries(page: number = 1): Promise<Series> {
 }
 
 export async function getMovieDetail(id: number): Promise<MovieDetail> {
-  const res = await dbFetch(`${BASE_URL}/movie/${id}`, API_GET_KEY);
+  const res = await dbFetch(`/movie/${id}`, API_GET_KEY);
   return res;
 }
 
 export async function getSerieDetail(id: number): Promise<SerieDetail> {
-  const res = await dbFetch(`${BASE_URL}/tv/${id}`, API_GET_KEY);
+  const res = await dbFetch(`/tv/${id}`, API_GET_KEY);
+  console.log(res);
   return res;
 }
 
@@ -69,7 +70,7 @@ export async function getSerieReviews(
   page: number = 1,
 ): Promise<Reviews> {
   const res = await dbFetch(
-    `${BASE_URL}/tv/${id}/reviews?language=${language}&page=${page}`,
+    `/tv/${id}/reviews?language=${language}&page=${page}`,
     API_GET_KEY,
   );
   return res;
@@ -81,7 +82,7 @@ export async function getMovieReviews(
   page: number = 1,
 ): Promise<Reviews> {
   const res = await dbFetch(
-    `${BASE_URL}/movie/${id}/reviews?language=${language}&page=${page}`,
+    `/movie/${id}/reviews?language=${language}&page=${page}`,
     API_GET_KEY,
   );
   return res;
@@ -89,7 +90,7 @@ export async function getMovieReviews(
 
 export async function getSerieCredits(id: number, language: string = "en-US") {
   const res = await dbFetch(
-    `${BASE_URL}/tv/${id}/credits?language=${language}`,
+    `/tv/${id}/credits?language=${language}`,
     API_GET_KEY,
   );
   return res;
@@ -97,7 +98,7 @@ export async function getSerieCredits(id: number, language: string = "en-US") {
 
 export async function getMovieCredits(id: number, language: string = "en-US") {
   const res = await dbFetch(
-    `${BASE_URL}/movie/${id}/credits?language=${language}`,
+    `/movie/${id}/credits?language=${language}`,
     API_GET_KEY,
   );
   return res;
