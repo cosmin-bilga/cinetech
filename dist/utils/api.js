@@ -51,4 +51,12 @@ export async function getMovieCredits(id, language = "en-US") {
     const res = await dbFetch(`/movie/${id}/credits?language=${language}`, API_GET_KEY);
     return res;
 }
+export async function getMovieSuggestions(id) {
+    const res = await dbFetch(`/movie/${id}/recommendations`, API_GET_KEY);
+    return res;
+}
+export async function getSerieSuggestions(id) {
+    const res = await dbFetch(`/tv/${id}/recommendations`, API_GET_KEY);
+    return res;
+}
 //# sourceMappingURL=api.js.map

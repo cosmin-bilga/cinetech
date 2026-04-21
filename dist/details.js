@@ -1,4 +1,4 @@
-import { getMovieDetail, getSerieDetail, getMovieReviews, getSerieReviews, getSerieCredits, getMovieCredits, } from "./utils/api.js";
+import { getMovieDetail, getSerieDetail, getMovieReviews, getSerieReviews, getSerieCredits, getMovieCredits, getMovieSuggestions, getSerieSuggestions, } from "./utils/api.js";
 import { getCurrentId, changeLocalMovieFavorites, changeLocalSerieFavorites, isFavoriteMovie, isFavoriteSerie, } from "./utils/functions.js";
 import { BASE_IMAGE_URL } from "./config/config.js";
 import { handleReply } from "./utils/functions.js";
@@ -14,7 +14,9 @@ async function retrieveMovie() {
     const data = await getMovieDetail(movieId);
     const dataCredits = await getMovieCredits(movieId);
     const reviewData = await getMovieReviews(movieId);
+    const suggestionData = await getMovieSuggestions(movieId);
     const localReplies = JSON.parse(localStorage.getItem("replies") || "{}");
+    console.log(suggestionData);
     mainElement.className = "bg-linear-to-br from-gray-900 to-gray-800";
     // Section Détails du film
     mainElement.innerHTML = `
@@ -72,6 +74,34 @@ async function retrieveMovie() {
     </div>
   </div>
   `;
+    const movieSuggestionContainer = document.createElement("div");
+    movieSuggestionContainer.innerHTML = `
+  <h4 class="text-amber-500 text-xl mb-4 font-bold">Films similaires</h4>
+  <div class="grid grid-cols-2  md:grid-cols-6 gap-2">
+    ${suggestionData.results
+        .slice(0, 6)
+        .map((movie) => {
+        return `
+          <div class="mx-2">
+            <a href="/detail/movie.html?id=${movie.id}" class="block">
+              <div class="relative overflow-hidden rounded-lg aspect-2/3 bg-gray-800">
+                <img 
+                  src="${movie.poster_path ? BASE_IMAGE_URL + "w342" + movie.poster_path : "../assets/no-poster.png"}" 
+                  alt="${movie.title}"
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <p class="text-sm mt-2 text-amber-100 font-medium truncate group-hover:text-amber-500">
+                ${movie.title}
+              </p>
+            </a>
+          </div>
+        `;
+    })
+        .join("")}
+  </div>
+`;
+    mainElement.append(movieSuggestionContainer);
     const movieReviewContainer = document.createElement("div");
     movieReviewContainer.className = "mx-2 text-white";
     movieReviewContainer.innerHTML = `
@@ -143,7 +173,7 @@ async function retrieveSerie() {
     }
     const data = await getSerieDetail(serieId);
     const dataCredits = await getSerieCredits(serieId);
-    console.log(dataCredits);
+    const suggestionData = await getSerieSuggestions(serieId);
     /*   const producers = getProducers(dataCredits);
     const actors = getActors(dataCredits); */
     serieInfo.innerHTML = `
@@ -204,6 +234,34 @@ async function retrieveSerie() {
   </div>
   `;
     mainElement.append(serieInfo);
+    const serieSuggestionContainer = document.createElement("div");
+    serieSuggestionContainer.innerHTML = `
+  <h4 class="text-amber-500 text-xl mb-4 font-bold text-center">Series similaires</h4>
+  <div class="grid grid-cols-2  md:grid-cols-6 gap-2">
+    ${suggestionData.results
+        .slice(0, 6)
+        .map((serie) => {
+        return `
+          <div class="mx-2">
+            <a href="/detail/serie.html?id=${serie.id}" class="block">
+              <div class="relative overflow-hidden rounded-lg aspect-2/3 bg-gray-800">
+                <img 
+                  src="${serie.poster_path ? BASE_IMAGE_URL + "w342" + serie.poster_path : "../assets/no-poster.png"}" 
+                  alt="${serie.name}"
+                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <p class="text-sm mt-2 text-amber-100 font-medium truncate group-hover:text-amber-500">
+                ${serie.name}
+              </p>
+            </a>
+          </div>
+        `;
+    })
+        .join("")}
+  </div>
+`;
+    mainElement.append(serieSuggestionContainer);
     const reviewData = await getSerieReviews(data.id);
     console.log(reviewData);
     const localReplies = JSON.parse(localStorage.getItem("replies") || "{}");

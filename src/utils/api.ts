@@ -103,3 +103,13 @@ export async function getMovieCredits(id: number, language: string = "en-US") {
   );
   return res;
 }
+
+export async function getMovieSuggestions(id: number) {
+  const res = await dbFetch(`/movie/${id}/recommendations`, API_GET_KEY);
+  return res;
+}
+
+export async function getSerieSuggestions(id: number) {
+  const res = await dbFetch(`/tv/${id}/recommendations`, API_GET_KEY);
+  return res;
+}
