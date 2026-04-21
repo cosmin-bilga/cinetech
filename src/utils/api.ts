@@ -133,3 +133,10 @@ export async function getSearchMovieSuggestions(
   );
   return res.results as Promise<Movie[]>;
 }
+
+export async function getSearchSerieSuggestions(
+  search_string: string,
+): Promise<Serie[]> {
+  const res = await dbFetch(`/search/tv?query=${search_string}`, API_GET_KEY);
+  return res.results as Promise<Serie[]>;
+}

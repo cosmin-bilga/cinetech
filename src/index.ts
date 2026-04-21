@@ -2,6 +2,7 @@ import { getPopularMovies, getSearchMovieSuggestions } from "./utils/api.js";
 import type { Movie, Movies, Serie } from "./types/types.js";
 import { BASE_IMAGE_URL } from "./config/config.js";
 import { getCurrentPage, buildPagination } from "./utils/functions.js";
+import { initSearch } from "./utils/searchbar.js";
 
 let currentPage: number = getCurrentPage();
 
@@ -56,35 +57,4 @@ async function changePage(page: number) {
 }
 
 displayMovies();
-
-const searchBar = document.getElementById("search-bar");
-const searchSuggestions = document.getElementById("search-suggestions");
-let searchTimer: number;
-
-searchBar?.addEventListener("input", (e) => {
-  const target = e.target as HTMLInputElement;
-  const query = target.value.trim();
-
-  clearTimeout(searchTimer);
-
-  if (query.length < 3) {
-    if (searchSuggestions) searchSuggestions.innerHTML = "";
-    return;
-  }
-
-  searchTimer = setTimeout(async () => {
-    const searchData = await getSearchMovieSuggestions(query);
-    if (searchSuggestions)
-      searchSuggestions.innerHTML = searchData
-        .map(
-          (item: Movie) => `
-      <a href="/detail/movie.html?id=${item.id}">
-        <div class="p-2 hover:bg-gray-700 cursor-pointer">
-            ${item.title}
-        </div>
-      </a>
-   `,
-        )
-        .join("");
-  }, 300);
-});
+initSearch("movies");

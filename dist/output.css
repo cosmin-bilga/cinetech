@@ -396,6 +396,9 @@
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
+  .gap-3 {
+    gap: calc(var(--spacing) * 3);
+  }
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
@@ -563,6 +566,9 @@
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
+  .p-3 {
+    padding: calc(var(--spacing) * 3);
+  }
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
@@ -647,6 +653,9 @@
   .text-white {
     color: var(--color-white);
   }
+  .italic {
+    font-style: italic;
+  }
   .underline {
     text-decoration-line: underline;
   }
@@ -718,6 +727,12 @@
       @media (hover: hover) {
         color: var(--color-amber-500);
       }
+    }
+  }
+  .last\:border-none {
+    &:last-child {
+      --tw-border-style: none;
+      border-style: none;
     }
   }
   .hover\:scale-105 {
