@@ -2,6 +2,7 @@ import { getMovies } from "./utils/api.js";
 import type { Movie, Movies } from "./types/types.js";
 import { BASE_IMAGE_URL } from "./config/config.js";
 import { getCurrentPage, buildPagination } from "./utils/functions.js";
+import { initSearch } from "./utils/searchbar.js";
 
 let currentPage: number = getCurrentPage();
 
@@ -58,3 +59,4 @@ async function changePage(page: number) {
 }
 
 displayMovies();
+initSearch("movies");

@@ -23,6 +23,7 @@ import type {
   MovieDetail,
   SerieDetail,
 } from "./types/types.js";
+import { initSearch } from "./utils/searchbar.js";
 
 async function retrieveMovie() {
   const mainElement = document.getElementById("main");
@@ -201,6 +202,7 @@ async function retrieveMovie() {
   });
 
   mainElement.append(movieReviewContainer);
+  initSearch("movies");
 }
 
 async function retrieveSerie() {
@@ -393,6 +395,7 @@ async function retrieveSerie() {
   });
 
   mainElement.append(serieReview);
+  initSearch("series");
 }
 
 retrieveMovie();

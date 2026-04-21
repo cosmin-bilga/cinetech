@@ -1,5 +1,6 @@
 import { BASE_IMAGE_URL } from "./config/config.js";
 import { changeLocalMovieFavorites, changeLocalSerieFavorites, getFavoriteMovieList, getFavoriteSerieList, } from "./utils/functions.js";
+import { initSearch } from "./utils/searchbar.js";
 async function renderFavoriteMovies() {
     const favoriteSection = document.getElementById("favorite-movies");
     if (!favoriteSection)
@@ -69,4 +70,5 @@ async function renderFavoriteSeries() {
 }
 renderFavoriteMovies();
 renderFavoriteSeries();
+initSearch("movies");
 //# sourceMappingURL=favoris.js.map

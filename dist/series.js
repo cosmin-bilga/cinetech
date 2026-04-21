@@ -1,6 +1,7 @@
 import { getSeries } from "./utils/api.js";
 import { BASE_IMAGE_URL } from "./config/config.js";
 import { getCurrentPage, buildPagination } from "./utils/functions.js";
+import { initSearch } from "./utils/searchbar.js";
 let currentPage = getCurrentPage();
 console.log(currentPage);
 async function displaySeries() {
@@ -38,4 +39,5 @@ async function changePage(page) {
     currentPage = page;
 }
 displaySeries();
+initSearch();
 //# sourceMappingURL=series.js.map

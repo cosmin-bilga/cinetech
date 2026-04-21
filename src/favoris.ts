@@ -6,6 +6,7 @@ import {
   getFavoriteMovieList,
   getFavoriteSerieList,
 } from "./utils/functions.js";
+import { initSearch } from "./utils/searchbar.js";
 
 async function renderFavoriteMovies() {
   const favoriteSection = document.getElementById("favorite-movies");
@@ -92,3 +93,4 @@ async function renderFavoriteSeries() {
 
 renderFavoriteMovies();
 renderFavoriteSeries();
+initSearch("movies");

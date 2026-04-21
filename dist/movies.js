@@ -1,6 +1,7 @@
 import { getMovies } from "./utils/api.js";
 import { BASE_IMAGE_URL } from "./config/config.js";
 import { getCurrentPage, buildPagination } from "./utils/functions.js";
+import { initSearch } from "./utils/searchbar.js";
 let currentPage = getCurrentPage();
 console.log(currentPage);
 async function displayMovies() {
@@ -39,4 +40,5 @@ async function changePage(page) {
     currentPage = page;
 }
 displayMovies();
+initSearch("movies");
 //# sourceMappingURL=movies.js.map

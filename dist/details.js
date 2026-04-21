@@ -2,6 +2,7 @@ import { getMovieDetail, getSerieDetail, getMovieReviews, getSerieReviews, getSe
 import { getCurrentId, changeLocalMovieFavorites, changeLocalSerieFavorites, isFavoriteMovie, isFavoriteSerie, } from "./utils/functions.js";
 import { BASE_IMAGE_URL } from "./config/config.js";
 import { handleReply } from "./utils/functions.js";
+import { initSearch } from "./utils/searchbar.js";
 async function retrieveMovie() {
     const mainElement = document.getElementById("main");
     if (!mainElement)
@@ -156,6 +157,7 @@ async function retrieveMovie() {
         }
     });
     mainElement.append(movieReviewContainer);
+    initSearch("movies");
 }
 async function retrieveSerie() {
     const mainElement = document.getElementById("main-serie");
@@ -318,6 +320,7 @@ async function retrieveSerie() {
         }
     });
     mainElement.append(serieReview);
+    initSearch("series");
 }
 retrieveMovie();
 retrieveSerie();
