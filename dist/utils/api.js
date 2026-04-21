@@ -59,4 +59,12 @@ export async function getSerieSuggestions(id) {
     const res = await dbFetch(`/tv/${id}/recommendations`, API_GET_KEY);
     return res;
 }
+export async function getSearchSuggestions(search_string) {
+    const res = await dbFetch(`/search/multi?query=${search_string}`, API_GET_KEY);
+    return res;
+}
+export async function getSearchMovieSuggestions(search_string) {
+    const res = await dbFetch(`/search/movie?query=${search_string}`, API_GET_KEY);
+    return res.results;
+}
 //# sourceMappingURL=api.js.map

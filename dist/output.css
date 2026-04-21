@@ -357,6 +357,9 @@
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
+  .cursor-pointer {
+    cursor: pointer;
+  }
   .resize {
     resize: both;
   }
@@ -511,6 +514,9 @@
   }
   .bg-red-800 {
     background-color: var(--color-red-800);
+  }
+  .bg-white {
+    background-color: var(--color-white);
   }
   .bg-linear-to-br {
     --tw-gradient-position: to bottom right;
@@ -741,6 +747,13 @@
         @supports (color: color-mix(in lab, red, red)) {
           background-color: color-mix(in oklab, var(--color-gray-400) 20%, transparent);
         }
+      }
+    }
+  }
+  .hover\:bg-gray-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-700);
       }
     }
   }

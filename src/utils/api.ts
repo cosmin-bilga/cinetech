@@ -113,3 +113,23 @@ export async function getSerieSuggestions(id: number) {
   const res = await dbFetch(`/tv/${id}/recommendations`, API_GET_KEY);
   return res;
 }
+
+export async function getSearchSuggestions(
+  search_string: string,
+): Promise<any> {
+  const res = await dbFetch(
+    `/search/multi?query=${search_string}`,
+    API_GET_KEY,
+  );
+  return res;
+}
+
+export async function getSearchMovieSuggestions(
+  search_string: string,
+): Promise<Movie[]> {
+  const res = await dbFetch(
+    `/search/movie?query=${search_string}`,
+    API_GET_KEY,
+  );
+  return res.results as Promise<Movie[]>;
+}
