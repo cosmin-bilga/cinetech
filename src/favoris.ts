@@ -17,7 +17,6 @@ async function renderFavoriteMovies() {
 
   const fragment = document.createDocumentFragment(); // pour modifier le DOM une seule fois, à la fin
 
-  console.log(data, Array.isArray(data), JSON.stringify(data));
   /* LISTE DES FILMS */
   data.forEach((movie: MovieDetail) => {
     const movieElement = document.createElement("div");

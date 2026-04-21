@@ -7,7 +7,6 @@ async function renderFavoriteMovies() {
     favoriteSection.className = "flex flex-wrap gap-4 justify-center";
     const data = await getFavoriteMovieList();
     const fragment = document.createDocumentFragment(); // pour modifier le DOM une seule fois, à la fin
-    console.log(data, Array.isArray(data), JSON.stringify(data));
     /* LISTE DES FILMS */
     data.forEach((movie) => {
         const movieElement = document.createElement("div");

@@ -40,8 +40,6 @@ async function retrieveMovie() {
   const suggestionData = await getMovieSuggestions(movieId);
   const localReplies = JSON.parse(localStorage.getItem("replies") || "{}");
 
-  console.log(suggestionData);
-
   mainElement.className = "bg-linear-to-br from-gray-900 to-gray-800";
 
   // Section Détails du film
@@ -189,7 +187,6 @@ async function retrieveMovie() {
   });
 
   const favoriteButton = document.getElementById("add-favorite-button");
-  console.log(favoriteButton);
   favoriteButton?.addEventListener("click", (e) => {
     changeLocalMovieFavorites(data);
     if (isFavoriteMovie(data.id)) {
@@ -328,7 +325,6 @@ async function retrieveSerie() {
   mainElement.append(serieSuggestionContainer);
 
   const reviewData = await getSerieReviews(data.id);
-  console.log(reviewData);
   const localReplies = JSON.parse(localStorage.getItem("replies") || "{}");
   const serieReview = document.createElement("div");
 
@@ -383,7 +379,6 @@ async function retrieveSerie() {
   });
 
   const favoriteButton = document.getElementById("add-favorite-button");
-  console.log(favoriteButton);
   favoriteButton?.addEventListener("click", (e) => {
     changeLocalSerieFavorites(data);
     if (isFavoriteSerie(data.id)) {

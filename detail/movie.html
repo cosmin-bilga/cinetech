@@ -10,7 +10,7 @@
   <body>
     <header class="w-full flex justify-center">
       <nav
-        class="flex justify-center gap-6 p-4 bg-gradient-to-b from-[#400261] to-[#41054A] text-2xl font-extrabold lg: w-200 lg: rounded-xl"
+        class="flex flex-col items-center justify-center gap-6 p-4 bg-gradient-to-b from-[#400261] to-[#41054A] text-2xl font-extrabold lg: w-200 lg: rounded-xl"
       >
         <a
           href="/"
@@ -36,6 +36,10 @@
           class="hover:text-amber-500 hover:scale-105 transition-all duration-300"
           >Favoris</a
         >
+        <div>
+          <input id="search-bar" class="bg-white" />
+          <div id="search-suggestions"></div>
+        </div>
       </nav>
     </header>
     <main id="main"></main>
