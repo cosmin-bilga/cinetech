@@ -37,6 +37,14 @@ export async function getPopularMovies(page: number = 1): Promise<Movies> {
   return res;
 }
 
+export async function getPopularSeries(page: number = 1): Promise<Series> {
+  const res = await dbFetch(
+    `/tv/popular?api_key=${API_KEY}&page=${page}`,
+    API_KEY,
+  );
+  return res;
+}
+
 export async function getMovies(page: number = 1): Promise<Movies> {
   const res = await dbFetch(
     `/movie/top_rated?api_key=${API_KEY}&page=${page}`,

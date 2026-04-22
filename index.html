@@ -7,38 +7,51 @@
     <script type="module" src="dist/index.js" defer></script>
     <link href="/dist/output.css" rel="stylesheet" />
   </head>
-  <body class="bg-gradient-to-br from-gray-800 to to-gray-900 text-amber-200">
-    <header class="w-full flex justify-center">
-      <nav
-        class="flex flex-col items-center justify-center gap-6 p-4 bg-gradient-to-b from-[#400261] to-[#41054A] text-2xl font-extrabold lg: w-200 lg: rounded-xl"
+  <body class="bg-linear-to-br from-gray-800 to to-gray-900 text-amber-200">
+    <header class="relative z-100">
+      <div
+        id="mobile-header"
+        class="w-full px-8 py-4 lg:hidden bg-[#400261] text-white font-bold flex"
       >
-        <a
-          href="/"
-          id="home-nav-button"
-          class="hover:text-amber-500 hover:scale-105 transition-all duration-300"
+        <p>Cinethèque</p>
+        <button id="menu-toggle" class="text-end ml-auto">MENU ☰</button>
+      </div>
+      <nav
+        id="nav-menu"
+        class="hidden lg:flex flex-col lg:flex-row items-center gap-6 p-4 bg-gradient-to-r from-[#400261] to-[#41054A] text-white text-xl font-bold transition-all duration-300"
+      >
+        <a href="/" class="hover:text-amber-500 hover:scale-105 transition-all"
           >Accueil</a
         >
         <a
-          id="movies-nav-button"
           href="/movies"
-          class="hover:text-amber-500 hover:scale-105 transition-all duration-300"
+          class="hover:text-amber-500 hover:scale-105 transition-all"
           >Films</a
         >
         <a
-          id="series-nav-button"
           href="/series"
-          class="hover:text-amber-500 hover:scale-105 transition-all duration-300"
-          >Series</a
+          class="hover:text-amber-500 hover:scale-105 transition-all"
+          >Séries</a
         >
         <a
           href="/favoris"
-          id="home-nav-button"
-          class="hover:text-amber-500 hover:scale-105 transition-all duration-300"
+          class="hover:text-amber-500 hover:scale-105 transition-all"
           >Favoris</a
         >
-        <div>
-          <input id="search-bar" class="bg-white" />
-          <div id="search-suggestions"></div>
+        <div class="mx-auto font-extrabold text-2xl text-amber-600">
+          <p>Cinethèque</p>
+        </div>
+
+        <div class="relative lg:ml-auto w-full lg:w-auto">
+          <input
+            id="search-bar"
+            class="w-full lg:w-64 bg-white/10 border border-white/20 rounded-full px-4 py-2 text-sm font-light text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white focus:text-black transition-all"
+            placeholder="Rechercher..."
+          />
+          <div
+            id="search-suggestions"
+            class="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-2xl text-black text-sm overflow-hidden hidden"
+          ></div>
         </div>
       </nav>
     </header>
@@ -48,7 +61,11 @@
         id="popular-movie-section"
         class="grid grid-cols-2 md:grid-cols-6 gap-2 m-2"
       ></section>
-      <section id="pagination" class=""></section>
+      <h2 class="text-3xl font-bold text-center my-8">Series populaires</h2>
+      <section
+        id="popular-serie-section"
+        class="grid grid-cols-2 md:grid-cols-6 gap-2 m-2"
+      ></section>
     </main>
   </body>
 </html>

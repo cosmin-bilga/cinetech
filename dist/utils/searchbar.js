@@ -53,4 +53,12 @@ export function initSearch(search_type = "movies") {
         }
     });
 }
+/* TOGGLE MENU MOBILE */
+const menuToggle = document.getElementById("menu-toggle");
+const navMenu = document.getElementById("nav-menu");
+//const mobileHeader = document.getElementById("mobile-header");
+menuToggle?.addEventListener("click", () => {
+    navMenu?.classList.toggle("hidden");
+    navMenu?.classList.toggle("flex");
+});
 //# sourceMappingURL=searchbar.js.map

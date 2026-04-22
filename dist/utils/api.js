@@ -18,6 +18,10 @@ export async function getPopularMovies(page = 1) {
     const res = await dbFetch(`/movie/popular?api_key=${API_KEY}&page=${page}`, API_KEY);
     return res;
 }
+export async function getPopularSeries(page = 1) {
+    const res = await dbFetch(`/tv/popular?api_key=${API_KEY}&page=${page}`, API_KEY);
+    return res;
+}
 export async function getMovies(page = 1) {
     const res = await dbFetch(`/movie/top_rated?api_key=${API_KEY}&page=${page}`, API_KEY);
     return res;
