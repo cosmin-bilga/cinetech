@@ -14,21 +14,34 @@ export function getCurrentId() {
 export function buildPagination(currPage, totalPages, route = "/") {
     /* PAGINATION */
     const paginationMenu = document.createElement("div");
-    paginationMenu.className = "flex justify-center";
+    paginationMenu.className = "flex justify-center gap-8 my-8";
     if (currPage > 1) {
+        const pageFirst = document.createElement("a");
+        pageFirst.className = "";
+        pageFirst.href = `${route}?page=1`;
+        pageFirst.textContent = "|<";
+        paginationMenu.append(pageFirst);
         const pagePrev = document.createElement("a");
+        pagePrev.className = "";
         pagePrev.href = `${route}?page=${currPage - 1}`;
-        pagePrev.textContent = "<- Page precedente  ";
+        pagePrev.textContent = "<";
         paginationMenu.append(pagePrev);
     }
     const pageCurr = document.createElement("p");
-    pageCurr.textContent = `${currPage}`;
+    pageCurr.className = "p-2 bg-amber-600";
+    pageCurr.textContent = `Page ${currPage}`;
     paginationMenu.append(pageCurr);
     if (currPage < totalPages) {
         const pageNext = document.createElement("a");
+        pageNext.className = "";
         pageNext.href = `${route}?page=${currPage + 1}`;
-        pageNext.textContent = "  Page suivante ->";
+        pageNext.textContent = ">";
         paginationMenu.append(pageNext);
+        const pageLast = document.createElement("a");
+        pageLast.className = "";
+        pageLast.href = `${route}?page=${currPage + 1}`;
+        pageLast.textContent = ">|";
+        paginationMenu.append(pageLast);
     }
     return paginationMenu;
 }
