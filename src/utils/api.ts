@@ -148,3 +148,21 @@ export async function getSearchSerieSuggestions(
   const res = await dbFetch(`/search/tv?query=${search_string}`, API_GET_KEY);
   return res.results as Promise<Serie[]>;
 }
+
+export async function getSearchMixedSuggestions(
+  search_string: string,
+): Promise<any> {
+  const resMovies = await dbFetch(
+    `/search/movie?query=${search_string}`,
+    API_GET_KEY,
+  );
+  const resSeries = await dbFetch(
+    `/search/tv?query=${search_string}`,
+    API_GET_KEY,
+  );
+  const res = resMovies.results
+    .splice(0, 5)
+    .concat(resSeries.results.splice(0, 5));
+
+  return res;
+}

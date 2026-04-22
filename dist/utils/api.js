@@ -75,4 +75,12 @@ export async function getSearchSerieSuggestions(search_string) {
     const res = await dbFetch(`/search/tv?query=${search_string}`, API_GET_KEY);
     return res.results;
 }
+export async function getSearchMixedSuggestions(search_string) {
+    const resMovies = await dbFetch(`/search/movie?query=${search_string}`, API_GET_KEY);
+    const resSeries = await dbFetch(`/search/tv?query=${search_string}`, API_GET_KEY);
+    const res = resMovies.results
+        .splice(0, 5)
+        .concat(resSeries.results.splice(0, 5));
+    return res;
+}
 //# sourceMappingURL=api.js.map

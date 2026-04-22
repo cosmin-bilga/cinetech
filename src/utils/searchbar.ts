@@ -1,4 +1,8 @@
-import { getSearchMovieSuggestions, getSearchSerieSuggestions } from "./api.js";
+import {
+  getSearchMovieSuggestions,
+  getSearchSerieSuggestions,
+  getSearchMixedSuggestions,
+} from "./api.js";
 import type { Movie, Serie } from "../types/types.js";
 
 export function initSearch(search_type: string = "movies") {
@@ -23,11 +27,12 @@ export function initSearch(search_type: string = "movies") {
     searchTimer = setTimeout(async () => {
       try {
         let searchData: any;
-        if (search_type === "series") {
+        /*  if (search_type === "series") {
           searchData = await getSearchSerieSuggestions(query);
         } else {
           searchData = await getSearchMovieSuggestions(query);
-        }
+        } */
+        searchData = await getSearchMixedSuggestions(query);
 
         if (searchData.length > 0) {
           searchSuggestions.classList.remove("hidden");
@@ -36,8 +41,9 @@ export function initSearch(search_type: string = "movies") {
             .map(
               (item: Movie | Serie) => `
               <a href="/detail/${search_type === "movies" ? "movie" : "serie"}.html?id=${item.id}" class="block border-b border-gray-700 last:border-none">
-                <div class="p-3 hover:bg-gray-700 transition-colors cursor-pointer flex items-center gap-3">
-                  <span class="text-white">${"title" in item ? item.title : item.name}</span>
+                <div class="p-3 hover:bg-amber-300 transition-colors cursor-pointer flex items-center gap-3">
+                  <span class="text-gray-900">
+                  ${"title" in item ? '<span class="text-xs text-gray-400 text-right">film  </span>' + item.title : '<span class="text-xs text-gray-400 text-end">serie  </span>' + item.name}</span>
                 </div>
               </a>
             `,
@@ -72,4 +78,7 @@ const navMenu = document.getElementById("nav-menu");
 menuToggle?.addEventListener("click", () => {
   navMenu?.classList.toggle("hidden");
   navMenu?.classList.toggle("flex");
+  menuToggle?.textContent === "MENU ☰"
+    ? (menuToggle.textContent = "X")
+    : (menuToggle.textContent = "MENU ☰");
 });
