@@ -17,16 +17,23 @@ async function displaySeries() {
         const fragment = document.createDocumentFragment(); // pour modifier le DOM une seule fois, à la fin
         /* LISTE DES FILMS */
         data.results.forEach((serie) => {
-            const movieElement = document.createElement("div");
-            movieElement.className =
-                "p-8 rounded-3xl bg-gray-500/10 w-full md: max-w-100 max-h-200 md:hover:scale-105 hover:bg-gray-400/20 transition-all duration-300";
-            movieElement.innerHTML = `<a href="/detail/serie.html?id=${serie.id}"><h3 class="text-2xl text-center mb-4">${serie.name}</h3>
-          <img src=${BASE_IMAGE_URL + "w500" + serie.poster_path} />
-          <div class="flex flex-col items-center">
-              <p>Note moyenne: ${serie.vote_average.toPrecision(2)}</p>
-          </div></a>
+            const serieElement = document.createElement("div");
+            serieElement.className =
+                "py-4 px-2 rounded-2xl bg-linear-to-br from-gray-500/10 to-gray-300/10 w-full md: max-w-100 max-h-200 hover:scale-102 transition-all duration-300";
+            serieElement.innerHTML = `
+        <a href="/detail/serie.html?id=${serie.id}" class="flex flex-col justify-between">
+          <h3 class="text-xl font-bold text-center mb-4 text-amber-500 italic h-16 line-clamp-2">${serie.name}</h3>
+          <img src=${BASE_IMAGE_URL + "w500" + serie.poster_path} class="aspect-2/3" />
+          <div class="flex flex-col items-center mt-auto">
+              <p class="text-sm">Date de debut: <span class="text-white">${serie.first_air_date}</span></p>
+              <p class="text-sm">
+                <span class="text-white">${serie.vote_average.toPrecision(2)}</span>
+                <span class="text-yellow-500">★</span>
+              </p>
+          </div>
+        </a>
          `;
-            fragment.appendChild(movieElement);
+            fragment.appendChild(serieElement);
         });
         paginationSection.append(buildPagination(currentPage, data.total_pages, "/series/"));
         movieSection.append(fragment);
