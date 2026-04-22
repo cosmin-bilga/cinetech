@@ -7,7 +7,7 @@ export async function dbFetch(route, api_key) {
             Authorization: `Bearer ${api_key}`,
         },
     };
-    console.log("request", `${BASE_URL}${route}`);
+    //console.log("request", `${BASE_URL}${route}`);
     const response = await fetch(`${BASE_URL}${route}`, options);
     if (!response.ok) {
         throw new Error(`API Error: ${response.status} ${response.statusText}`);
@@ -36,7 +36,7 @@ export async function getMovieDetail(id) {
 }
 export async function getSerieDetail(id) {
     const res = await dbFetch(`/tv/${id}`, API_GET_KEY);
-    console.log(res);
+    //console.log(res);
     return res;
 }
 export async function getSerieReviews(id, language = "en-US", page = 1) {

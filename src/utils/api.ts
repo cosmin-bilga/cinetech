@@ -19,7 +19,7 @@ export async function dbFetch(route: string, api_key: string): Promise<any> {
     },
   };
 
-  console.log("request", `${BASE_URL}${route}`);
+  //console.log("request", `${BASE_URL}${route}`);
   const response = await fetch(`${BASE_URL}${route}`, options);
 
   if (!response.ok) {
@@ -68,7 +68,7 @@ export async function getMovieDetail(id: number): Promise<MovieDetail> {
 
 export async function getSerieDetail(id: number): Promise<SerieDetail> {
   const res = await dbFetch(`/tv/${id}`, API_GET_KEY);
-  console.log(res);
+  //console.log(res);
   return res;
 }
 

@@ -695,6 +695,9 @@
   .underline {
     text-decoration-line: underline;
   }
+  .decoration-amber-500 {
+    text-decoration-color: var(--color-amber-500);
+  }
   .placeholder-white {
     &::placeholder {
       color: var(--color-white);
