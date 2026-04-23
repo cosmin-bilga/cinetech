@@ -3,7 +3,6 @@ import { BASE_IMAGE_URL } from "./config/config.js";
 import { getCurrentPage, buildPagination } from "./utils/functions.js";
 import { initSearch } from "./utils/searchbar.js";
 let currentPage = getCurrentPage();
-console.log(currentPage);
 async function displaySeries() {
     const movieSection = document.getElementById("series-section");
     const paginationSection = document.getElementById("pagination");

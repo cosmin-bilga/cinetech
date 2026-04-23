@@ -17,7 +17,8 @@ async function retrieveMovie() {
     const reviewData = await getMovieReviews(movieId);
     const suggestionData = await getMovieSuggestions(movieId);
     const localReplies = JSON.parse(localStorage.getItem("replies") || "{}");
-    mainElement.className = "bg-linear-to-br from-gray-900 to-gray-800";
+    mainElement.className =
+        "bg-linear-to-br from-gray-900 to-gray-800 md:px-[12.5%]";
     // Section Détails du film
     mainElement.innerHTML = `
   <div class="">
@@ -61,7 +62,7 @@ async function retrieveMovie() {
     </div>
     <div>
       <h5 class="text-2xl text-amber-500 text-center" >Cast</h5>
-      <div class="grid grid-cols-4 md:grid-cols-12">
+      <div class="grid grid-cols-4 gap-2 md:flex md:flex-wrap md:justify-center md:gap-8">
         ${dataCredits.cast
         .slice(0, 20)
         .map((castMember) => `
@@ -198,7 +199,7 @@ async function retrieveSerie() {
         //console.error("Main not found");
         return;
     }
-    mainElement.className = "bg-linear-to-br from-gray-900 to-gray-800";
+    mainElement.className = "md:px-[12.5%]";
     const serieId = getCurrentId();
     if (serieId === -1) {
         mainElement.innerHTML = "Serie not found";
@@ -253,7 +254,7 @@ async function retrieveSerie() {
     </div>
     <div>
       <h5 class="text-2xl text-amber-500 text-center">Cast</h5>
-      <div class="grid grid-cols-4 md:grid-cols-12">
+      <div class="grid grid-cols-4 gap-2 md:flex md:flex-wrap md:justify-center md:gap-8">
         ${dataCredits.cast
         .map((castMember) => `
         <div class="">

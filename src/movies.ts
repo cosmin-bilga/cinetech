@@ -6,8 +6,6 @@ import { initSearch } from "./utils/searchbar.js";
 
 let currentPage: number = getCurrentPage();
 
-console.log(currentPage);
-
 async function displayMovies() {
   const movieSection = document.getElementById(
     "popular-movie-section",
@@ -24,6 +22,8 @@ async function displayMovies() {
 
   try {
     const data: Movies = await getMovies(currentPage);
+
+    console.log(data);
 
     movieSection.innerHTML = "";
 

@@ -3,7 +3,6 @@ import { BASE_IMAGE_URL } from "./config/config.js";
 import { getCurrentPage, buildPagination } from "./utils/functions.js";
 import { initSearch } from "./utils/searchbar.js";
 let currentPage = getCurrentPage();
-console.log(currentPage);
 async function displayMovies() {
     const movieSection = document.getElementById("popular-movie-section");
     const paginationSection = document.getElementById("pagination");
@@ -13,6 +12,7 @@ async function displayMovies() {
     }
     try {
         const data = await getMovies(currentPage);
+        console.log(data);
         movieSection.innerHTML = "";
         const fragment = document.createDocumentFragment(); // pour modifier le DOM une seule fois, à la fin
         /* LISTE DES FILMS */

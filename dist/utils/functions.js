@@ -39,7 +39,7 @@ export function buildPagination(currPage, totalPages, route = "/") {
         paginationMenu.append(pageNext);
         const pageLast = document.createElement("a");
         pageLast.className = "";
-        pageLast.href = `${route}?page=${currPage + 1}`;
+        pageLast.href = `${route}?page=${totalPages < 500 ? totalPages : 500}`;
         pageLast.textContent = ">|";
         paginationMenu.append(pageLast);
     }

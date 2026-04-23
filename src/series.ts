@@ -6,8 +6,6 @@ import { initSearch } from "./utils/searchbar.js";
 
 let currentPage: number = getCurrentPage();
 
-console.log(currentPage);
-
 async function displaySeries() {
   const movieSection = document.getElementById("series-section") as HTMLElement;
 
