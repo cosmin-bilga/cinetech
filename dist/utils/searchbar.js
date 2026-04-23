@@ -28,7 +28,7 @@ export function initSearch(search_type = "movies") {
                     searchSuggestions.innerHTML = searchData
                         .slice(0, 10)
                         .map((item) => `
-              <a href="/detail/${search_type === "movies" ? "movie" : "serie"}.html?id=${item.id}" class="block border-b border-gray-700 last:border-none">
+              <a href="/detail/${"title" in item ? "movie" : "serie"}.html?id=${item.id}" class="block border-b border-gray-700 last:border-none">
                 <div class="p-3 hover:bg-amber-300 transition-colors cursor-pointer flex items-center gap-3">
                   <span class="text-gray-900">
                   ${"title" in item ? '<span class="text-xs text-gray-400 text-right">film  </span>' + item.title : '<span class="text-xs text-gray-400 text-end">serie  </span>' + item.name}</span>
