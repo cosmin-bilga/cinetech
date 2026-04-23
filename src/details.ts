@@ -46,7 +46,7 @@ async function retrieveMovie() {
   // Section Détails du film
   mainElement.innerHTML = `
   <div class="">
-    <h2 class="text-center text-3xl text-amber-500 my-8 font-bold">${data.title}</h2>
+    <h2 class="text-center text-3xl text-amber-500 mb-8 pt-8 font-bold">${data.title}</h2>
     <div class="w-full">
       <img src=${BASE_IMAGE_URL + "w500" + data.poster_path} class="max-w-100 aspect-auto mx-auto"/>
     </div>
@@ -143,10 +143,28 @@ async function retrieveMovie() {
 
   mainElement.append(movieSuggestionContainer);
 
+  const userCommentsKey = `movie-comments-${movieId}`;
+  const userComments = JSON.parse(
+    localStorage.getItem(userCommentsKey) || "[]",
+  );
+
+  const userCommentsHTML = userComments
+    .map(
+      (comment: any, index: number) => `
+  <div class="ml-2 mb-4 border-b border-gray-700 pb-2">
+    <p class="font-bold text-amber-500">Moi</p>
+    <p class="text-white mt-1 italic">"${comment.content}"</p>
+  </div>
+`,
+    )
+    .join("");
+
   const movieReviewContainer = document.createElement("div");
   movieReviewContainer.className = "mx-2 text-white";
   movieReviewContainer.innerHTML = `
     <h4 class="text-amber-500 text-2xl font-bold my-8 pl-12 border-t ">Commentaires</h4>
+    ${createUserCommentInput(movieId, "movie")}
+    ${userCommentsHTML}
     ${reviewData.results
       .map((review) => {
         const localRepliesForThisReview = localReplies[review.id] || [];
@@ -205,6 +223,29 @@ async function retrieveMovie() {
   });
 
   mainElement.append(movieReviewContainer);
+
+  const submitBtn = document.getElementById("submit-user-comment");
+  submitBtn?.addEventListener("click", () => {
+    const textarea = document.getElementById(
+      "user-new-comment",
+    ) as HTMLTextAreaElement;
+    const content = textarea.value.trim();
+
+    if (content) {
+      const storageKey = `movie-comments-${movieId}`;
+      const existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      const newComment = {
+        content: content,
+        date: new Date().toLocaleDateString("fr-FR"),
+        id: Date.now(),
+      };
+
+      existing.unshift(newComment);
+      localStorage.setItem(storageKey, JSON.stringify(existing));
+      window.location.reload();
+    }
+  });
+
   initSearch("movies");
 }
 
@@ -232,7 +273,7 @@ async function retrieveSerie() {
 
   serieInfo.innerHTML = `
   <div class="">
-    <h2 class="text-center text-3xl text-amber-500 my-8 font-bold">${data.name}</h2>
+    <h2 class="text-center text-3xl text-amber-500 mb-8 pt-8 font-bold">${data.name}</h2>
     <div class="w-full">
       <img src=${BASE_IMAGE_URL + "w500" + data.poster_path} class="max-w-100 aspect-auto mx-auto"/>
     </div>
@@ -339,14 +380,33 @@ async function retrieveSerie() {
 
   serieReview.className = "mx-2 text-white";
 
+  const userCommentsKey = `serie-comments-${serieId}`;
+  const userComments = JSON.parse(
+    localStorage.getItem(userCommentsKey) || "[]",
+  );
+
+  const userCommentsHTML = userComments
+    .map(
+      (comment: any, index: number) => `
+  <div class="ml-2 mb-4 border-b border-gray-700 pb-2">
+    <p class="font-bold text-amber-500">Moi</p>
+    <p class="text-white mt-1 italic">"${comment.content}"</p>
+  </div>
+`,
+    )
+    .join("");
+
   serieReview.innerHTML = `<div>
+   
     ${reviewData.results
       .map((review) => {
         const localRepliesForThisReview = localReplies[review.id] || [];
 
         return `
          <h4 class="text-amber-500 text-2xl font-bold my-8 pl-12 border-t ">Commentaires</h4>
-        <div id="review-${review.id}" class="ml-2 mb-2 border-b border-gray-700 pb-2">
+          ${createUserCommentInput(serieId, "serie")}
+          ${userCommentsHTML}
+          <div id="review-${review.id}" class="ml-2 mb-2 border-b border-gray-700 pb-2">
             <p class="font-bold text-amber-500">${review.author}</p>
             <p>${review.content}</p>
             
@@ -403,7 +463,44 @@ async function retrieveSerie() {
   });
 
   mainElement.append(serieReview);
+
+  const submitBtn = document.getElementById("submit-user-comment");
+  submitBtn?.addEventListener("click", () => {
+    const textarea = document.getElementById(
+      "user-new-comment",
+    ) as HTMLTextAreaElement;
+    const content = textarea.value.trim();
+
+    if (content) {
+      const storageKey = `serie-comments-${serieId}`;
+      const existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      const newComment = {
+        content: content,
+        date: new Date().toLocaleDateString("fr-FR"),
+        id: Date.now(),
+      };
+
+      existing.unshift(newComment);
+      localStorage.setItem(storageKey, JSON.stringify(existing));
+      window.location.reload();
+    }
+  });
   initSearch("series");
+}
+
+function createUserCommentInput(id: number, type: "movie" | "serie") {
+  return `
+    <div class="bg-gray-800/50 p-6 rounded-xl mb-10 border border-gray-700">
+      <h4 class="text-amber-500 text-xl font-bold mb-4">Laissez un avis</h4>
+      <textarea id="user-new-comment" 
+                class="w-full bg-gray-200 text-black p-3 rounded-lg border border-gray-600 focus:border-amber-500 outline-none h-24" 
+                placeholder="Qu'avez-vous pensé de ce ${type === "movie" ? "film" : "série"} ?"></textarea>
+      <button id="submit-user-comment" 
+              class="mt-3 bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+        Publier l'avis
+      </button>
+    </div>
+  `;
 }
 
 retrieveMovie();
