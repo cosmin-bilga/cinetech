@@ -7,7 +7,9 @@
     <link href="/dist/output.css" rel="stylesheet" />
     <script type="module" src="../dist/favoris.js" defer></script>
   </head>
-  <body class="bg-linear-to-br from-gray-800 to to-gray-900 text-amber-200">
+  <body
+    class="bg-linear-to-br from-gray-800 to to-gray-900 text-amber-200 min-h-screen"
+  >
     <header class="relative z-100">
       <div
         id="mobile-header"
@@ -58,8 +60,20 @@
       </nav>
     </header>
     <main>
-      <section id="favorite-movies"></section>
-      <section id="favorite-series"></section>
+      <h2 class="text-amber-500 font-bold text-2xl my-8 mx-12 text-center">
+        Films Favoris
+      </h2>
+      <section
+        id="favorite-movies"
+        class="grid grid-cols-2 gap-2 m-2 md:flex md:flex-wrap md:justify-center md:gap-6"
+      ></section>
+      <h2 class="text-amber-500 font-bold text-2xl my-8 mx-12 text-center">
+        Series Favories
+      </h2>
+      <section
+        id="favorite-series"
+        class="grid grid-cols-2 gap-2 m-2 md:flex md:flex-wrap md:justify-center md:gap-6"
+      ></section>
     </main>
   </body>
 </html>
