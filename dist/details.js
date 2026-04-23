@@ -21,19 +21,28 @@ async function retrieveMovie() {
     // Section Détails du film
     mainElement.innerHTML = `
   <div class="">
-    <h2 class="text-center text-3xl text-amber-500">${data.title}</h2>
-    <img src=${BASE_IMAGE_URL + "w500" + data.poster_path} />
+    <h2 class="text-center text-3xl text-amber-500 my-8 font-bold">${data.title}</h2>
+    <div class="w-full">
+      <img src=${BASE_IMAGE_URL + "w500" + data.poster_path} class="max-w-100 aspect-auto mx-auto"/>
+    </div>
   </div>
-  <div class="flex flex-col mx-2 justify-around text-amber-100 mb-8">
+  <div class="flex flex-col mx-2 justify-around text-amber-100 mb-8 ">
     <div>
-      <h3>Pays d'origine: ${data.production_countries.map((c) => c.name).join(" ") || "Non spécifié"}</h3>
-      <p>Durée: ${data.runtime} min</p>
-      <p>Date de sortie: ${data.release_date}</p>
-      <p></p>
+      <h3><span class="text-amber-300">Pays d'origine:</span> ${data.production_countries.map((c) => c.name).join(" ") || "Non spécifié"}</h3>
+      <p><span class="text-amber-300">Durée:</span> ${data.runtime} min</p>
+      <p><span class="text-amber-300">Date de sortie:</span> ${data.release_date}</p>
     </div>
     <div>
-      <h5>Synopsis</h5>
+      <h5 class="text-amber-300 font-bold ">Synopsis</h5>
       <p>${data.overview}</p>
+    </div>
+    <div class="flex justify-between mt-4 mx-10">
+      <p>${data.vote_average.toPrecision(2)}
+      <span class="text-yellow-500">★</span></p>
+      ${isFavoriteMovie(data.id)
+        ? `<button class="border border-black p-2 rounded-2xl bg-red-800"; id="add-favorite-button">Retier favori</button>`
+        : `<button class="border border-black p-2 rounded-2xl bg-green-800"; id="add-favorite-button">Ajouter favori</button>`}
+      
     </div>
      <div>
       <h5 class="text-3xl font-bold text-amber-500 text-center">Producers</h5>
@@ -41,7 +50,7 @@ async function retrieveMovie() {
         ${dataCredits.crew
         .filter((crewMember) => crewMember.job === "Producer")
         .map((producer) => `
-      <div class="w-1/2">
+        <div class="w-30 aspect-2/3">
           ${producer.profile_path
         ? `<img src="${BASE_IMAGE_URL + "w185" + producer.profile_path}" alt="${producer.name}" />`
         : `<img src="../assets/account-avatar-person-profile-user-svgrepo-com.svg" alt="${producer.name}" />`}
@@ -65,13 +74,7 @@ async function retrieveMovie() {
     `)
         .join("")} 
     </div>
-    <div class="flex justify-between mt-4">
-      <p>Note moyenne: ${data.vote_average.toPrecision(2)}</p>
-      ${isFavoriteMovie(data.id)
-        ? `<button class="border border-black p-2 rounded-2xl bg-red-800"; id="add-favorite-button">Retier favori</button>`
-        : `<button class="border border-black p-2 rounded-2xl bg-green-800"; id="add-favorite-button">Ajouter favori</button>`}
-      
-    </div>
+    
   </div>
   `;
     const movieSuggestionContainer = document.createElement("div");
@@ -105,7 +108,7 @@ async function retrieveMovie() {
     const movieReviewContainer = document.createElement("div");
     movieReviewContainer.className = "mx-2 text-white";
     movieReviewContainer.innerHTML = `
-    <h4 class="text-amber-500 text-xl mb-4">Commentaires</h4>
+    <h4 class="text-amber-500 text-2xl font-bold my-8 pl-12 border-t ">Commentaires</h4>
     ${reviewData.results
         .map((review) => {
         const localRepliesForThisReview = localReplies[review.id] || [];
@@ -178,28 +181,37 @@ async function retrieveSerie() {
     const actors = getActors(dataCredits); */
     serieInfo.innerHTML = `
   <div class="">
-    <h2 class="text-center text-3xl text-amber-500">${data.name}</h2>
-    <img src=${BASE_IMAGE_URL + "w500" + data.poster_path} />
+    <h2 class="text-center text-3xl text-amber-500 my-8 font-bold">${data.name}</h2>
+    <div class="w-full">
+      <img src=${BASE_IMAGE_URL + "w500" + data.poster_path} class="max-w-100 aspect-auto mx-auto"/>
+    </div>
   </div>
   <div class="flex flex-col mx-2 justify-around text-amber-100">
     <div>
       <h2 class="hidden">Titre: ${data.name}</h2>
-      <h3>Pays d'origine: ${data.production_countries.map((country) => country.name).join(" ") || "Pays non spécifié"}</h3>
-      <p>Saisons: ${data.number_of_seasons};
-      <p>Episodes: ${data.number_of_episodes}
-      <p>Date de debut: ${data.first_air_date}</p>
+      <h3><span class="text-amber-300">Pays d'origine:</span> ${data.production_countries.map((country) => country.name).join(" ") || "Pays non spécifié"}</h3>
+      <p><span class="text-amber-300">Saisons:</span> ${data.number_of_seasons};
+      <p><span class="text-amber-300">Episodes:</span> ${data.number_of_episodes}
+      <p><span class="text-amber-300">Date de debut:</span> ${data.first_air_date}</p>
     </div>
     <div>
-      <h5>Synopsis</h5>
+      <h5 class="text-amber-300 font-bold ">Synopsis</h5>
       <p>${data.overview}</p>
     <div>
+    <div class="flex justify-between mt-4 mx-10">
+      <p> ${data.vote_average.toPrecision(2)}
+      <span class="text-yellow-500">★</span></p>
+      ${isFavoriteMovie(data.id)
+        ? `<button class="border border-black p-2 rounded-2xl bg-red-800"; id="add-favorite-button">Rétier favori</button>`
+        : `<button class="border border-black p-2 rounded-2xl bg-green-800"; id="add-favorite-button">Ajouter favori</button>`}
+    </div>
     <div>
       <h5 class="text-3xl font-bold text-amber-500 text-center">Producers</h5>
       <div class="flex justify-center gap-4">
         ${dataCredits.crew
         .filter((crewMember) => crewMember.job === "Producer")
         .map((producer) => `
-      <div class="w-1/4">
+      <div class="w-30 aspect-2/3">
         <div class="aspect-3/4 rounded">
           ${producer.profile_path
         ? `<img src="${BASE_IMAGE_URL + "w500" + producer.profile_path}" alt="${producer.name}" class="w-full h-full object-cover"/>`
@@ -221,16 +233,11 @@ async function retrieveSerie() {
         : `<img src="../assets/account-avatar-person-profile-user-svgrepo-com.svg" alt="${castMember.name}" class="h-24 w-24 object-cover rounded-full"/>`}
         <p class="text-center text-sm">${castMember.name}</p>
         </div>
-    `)
+      `)
         .join("")} 
+      </div>
     </div>
-    </div>
-    <div class="flex justify-between">
-      <p>Note moyenne: ${data.vote_average.toPrecision(2)}</p>
-      ${isFavoriteMovie(data.id)
-        ? `<button class="border border-black p-2 rounded-2xl bg-red-800"; id="add-favorite-button">Rétier favori</button>`
-        : `<button class="border border-black p-2 rounded-2xl bg-green-800"; id="add-favorite-button">Ajouter favori</button>`}
-    </div>
+    
   </div>
   `;
     mainElement.append(serieInfo);
@@ -271,6 +278,7 @@ async function retrieveSerie() {
         .map((review) => {
         const localRepliesForThisReview = localReplies[review.id] || [];
         return `
+         <h4 class="text-amber-500 text-2xl font-bold my-8 pl-12 border-t ">Commentaires</h4>
         <div id="review-${review.id}" class="ml-2 mb-2 border-b border-gray-700 pb-2">
             <p class="font-bold text-amber-500">${review.author}</p>
             <p>${review.content}</p>
@@ -293,7 +301,7 @@ async function retrieveSerie() {
         </div>`;
     })
         .join("")}
-</div>`;
+  </div>`;
     serieReview.addEventListener("click", (e) => {
         const target = e.target;
         if (target.tagName === "BUTTON" && target.id.startsWith("button-")) {
