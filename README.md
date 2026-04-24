@@ -7,7 +7,7 @@ Le but de ce projet est de réaliser une bibliothèque de films et de séries, e
 Pour lancer ce projet:
 
 - Clonez le repo (`git clone https://github.com/cosmin-bilga/cinetech.git`)
-- Installez python version 3 (![Telecharger Python](https://www.python.org/downloads/ "Telecherger Python"))
+- Installez python version 3 ([Telecharger Python](https://www.python.org/downloads/))
 - Lancez le serveur avec python en vous mettant à la racine du projet (`python -m http.server 8000`)
 - Accedez le site sur le navigateur (http://localhost:8000)
 - Alternativement vous pouvez utiliser l'extension Live Server de VSCode
